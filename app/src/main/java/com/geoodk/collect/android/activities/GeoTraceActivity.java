@@ -42,6 +42,7 @@ import com.geoodk.collect.android.application.Collect;
 import com.geoodk.collect.android.preferences.MapSettings;
 import com.geoodk.collect.android.spatial.MBTileProvider;
 import com.geoodk.collect.android.spatial.MapHelper;
+import com.geoodk.collect.android.utilities.FileUtils;
 import com.geoodk.collect.android.widgets.GeoTraceWidget;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -787,23 +788,11 @@ public class GeoTraceActivity extends Activity implements IRegisterReceiver {
 
 		return mbtilePath;
 	}
-	private String[] getOfflineLayerList() {
-		File files = new File(Collect.OFFLINE_LAYERS);
-		ArrayList<String> results = new ArrayList<>();
-		results.add("None");
-		for(String folder : files.list()){
-			results.add(folder);
-		}
-		String[] finala = new String[results.size()];
-		finala = results.toArray(finala);
-		return finala;
-	}
-
 
 	private void showLayersDialog() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle("Select Offline Layer");
-		OffilineOverlays = getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
+		OffilineOverlays = FileUtils.getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
 		alertDialog.setSingleChoiceItems(OffilineOverlays, selected_layer, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
 				switch (item) {

@@ -51,6 +51,7 @@ import com.geoodk.collect.android.application.Collect;
 import com.geoodk.collect.android.preferences.MapSettings;
 import com.geoodk.collect.android.spatial.MBTileProvider;
 import com.geoodk.collect.android.spatial.MapHelper;
+import com.geoodk.collect.android.utilities.FileUtils;
 import com.geoodk.collect.android.widgets.GeoShapeWidget;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -544,7 +545,7 @@ public class GeoShapeActivity extends Activity implements IRegisterReceiver {
 		//View view=fl.inflate(self, R.layout.showlayers_layout, null);
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle("Select Offline Layer");
-		OffilineOverlays = getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
+		OffilineOverlays = FileUtils.getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
 		//alertDialog.setItems(list, new  DialogInterface.OnClickListener() {
 		alertDialog.setSingleChoiceItems(OffilineOverlays,selected_layer,new  DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int item) {
@@ -644,26 +645,7 @@ public class GeoShapeActivity extends Activity implements IRegisterReceiver {
 		
 		return mbtilePath;
 	}
-	 private String[] getOfflineLayerList() {
-		 File files = new File(Collect.OFFLINE_LAYERS);
-		 ArrayList<String> results = new ArrayList<>();
-		 results.add("None");
-//		 String[] overlay_folders =  files.list();
-         for(String folder : files.list()){
-             results.add(folder);
-         }
-//		 for(int i =0;i<overlay_folders.length;i++){
-//			 results.add(overlay_folders[i]);
-//			 //Toast.makeText(self, overlay_folders[i]+" ", Toast.LENGTH_LONG).show();
-//		 }
-		 String[] finala = new String[results.size()]; 
-		 finala = results.toArray(finala);
-		 /*for(int j = 0;j<finala.length;j++){
-			 Toast.makeText(self, finala[j]+" ", Toast.LENGTH_LONG).show();
-		 }*/
-		return finala;
-	}
-	 
+
 	    private OnMarkerClickListener nullmarkerlistner= new Marker.OnMarkerClickListener() {
 			
 			@Override

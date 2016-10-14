@@ -50,6 +50,7 @@ import com.geoodk.collect.android.application.Collect;
 import com.geoodk.collect.android.preferences.MapSettings;
 import com.geoodk.collect.android.spatial.MBTileProvider;
 import com.geoodk.collect.android.spatial.MapHelper;
+import com.geoodk.collect.android.utilities.FileUtils;
 import com.geoodk.collect.android.utilities.InfoLogger;
 import com.geoodk.collect.android.widgets.GeoPointNewWidget;
 
@@ -73,7 +74,6 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -774,7 +774,7 @@ public class GeoPointMapNewActivity extends Activity implements IRegisterReceive
 		//View view=fl.inflate(self, R.layout.showlayers_layout, null);
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle("Select Offline Layer");
-		offilineOverlays = getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
+		offilineOverlays = FileUtils.getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
 		//alertDialog.setItems(list, new  DialogInterface.OnClickListener() {
 		alertDialog.setSingleChoiceItems(offilineOverlays,selected_layer,new  DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int item) {
@@ -849,18 +849,6 @@ public class GeoPointMapNewActivity extends Activity implements IRegisterReceive
 		mapView.invalidate();
 
 	}
-
-    private String[] getOfflineLayerList() {
-        File files = new File(Collect.OFFLINE_LAYERS);
-        ArrayList<String> results = new ArrayList<>();
-        results.add("None");
-        for(String folder : files.list()){
-            results.add(folder);
-        }
-        String[] finala = new String[results.size()];
-        finala = results.toArray(finala);
-        return finala;
-    }
 
 	private String getMBTileFromItem(int item) {
 		String foldername = offilineOverlays[item];
