@@ -467,7 +467,7 @@ public class GeoODKMainMapActivity extends Activity implements IRegisterReceiver
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Select Offline Layer");
         //alertDialog.setItems(list, new  DialogInterface.OnClickListener() {
-        alertDialog.setSingleChoiceItems(MapHelper.getOfflineLayerList(), this.selected_layer, new DialogInterface.OnClickListener() {
+        alertDialog.setSingleChoiceItems(MapHelper.getOfflineLayerList(getApplicationContext()), this.selected_layer, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, final int item) {
 
@@ -479,7 +479,7 @@ public class GeoODKMainMapActivity extends Activity implements IRegisterReceiver
                             break;
                         default:
                             mapView.getOverlays().remove(mbTileOverlay);
-                            String mbFilePath = MapHelper.getMBTileFromItem(item);
+                            String mbFilePath = MapHelper.getMBTileFromItem(item, getApplicationContext());
                             //File mbFile = new File(Collect.OFFLINE_LAYERS+"/GlobalLights/control-room.mbtiles");
                             final File mbFile = new File(mbFilePath);
                             mbprovider = new MBTileProvider(GeoODKMainMapActivity.this, mbFile);

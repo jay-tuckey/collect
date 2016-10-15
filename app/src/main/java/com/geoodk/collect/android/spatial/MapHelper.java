@@ -1,5 +1,7 @@
 package com.geoodk.collect.android.spatial;
 
+import android.content.Context;
+
 import com.geoodk.collect.android.R;
 import com.geoodk.collect.android.application.Collect;
 
@@ -12,16 +14,9 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 public class MapHelper {
-    public static String[] OffilineOverlays = getOfflineLayerList();
     public final static  String MAPBOX = "mapbox";
     public final static  String GOOGLE = "google";
     public final static String ESRI = "esri";
-
-    public String[] getOffilineOverlays() {
-        return OffilineOverlays;
-    }
-
-
 
     public static ITileSource getTileSource(String basemap) {
 		ITileSource baseTiles;
@@ -106,7 +101,7 @@ public class MapHelper {
         }
         return baseTiles;
 	}
-    public static String[] getOfflineLayerList() {
+    public static String[] getOfflineLayerList(Context context) {
         // TODO Auto-generated method stub
         File files = new File(Collect.OFFLINE_LAYERS);
         ArrayList<String> results = new ArrayList<String>();
@@ -120,8 +115,9 @@ public class MapHelper {
         return finala;
     }
 
-    public static String getMBTileFromItem(final int item) {
-        String folderName = OffilineOverlays[item];
+    public static String getMBTileFromItem(final int item, Context context) {
+        String[] offlineOverlays = getOfflineLayerList(context);
+        String folderName = offlineOverlays[item];
         File dir = new File(Collect.OFFLINE_LAYERS+File.separator+folderName);
 
         if (dir.isFile()) {
