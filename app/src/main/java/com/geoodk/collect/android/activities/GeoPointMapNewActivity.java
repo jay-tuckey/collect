@@ -774,7 +774,7 @@ public class GeoPointMapNewActivity extends Activity implements IRegisterReceive
 		//View view=fl.inflate(self, R.layout.showlayers_layout, null);
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle("Select Offline Layer");
-		offilineOverlays = FileUtils.getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
+		offilineOverlays = MapHelper.getOfflineLayerList(getApplicationContext()); // Maybe this should only be done once. Have not decided yet.
 		//alertDialog.setItems(list, new  DialogInterface.OnClickListener() {
 		alertDialog.setSingleChoiceItems(offilineOverlays,selected_layer,new  DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int item) {

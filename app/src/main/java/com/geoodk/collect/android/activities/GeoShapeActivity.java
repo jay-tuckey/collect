@@ -545,7 +545,7 @@ public class GeoShapeActivity extends Activity implements IRegisterReceiver {
 		//View view=fl.inflate(self, R.layout.showlayers_layout, null);
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle("Select Offline Layer");
-		OffilineOverlays = FileUtils.getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
+		OffilineOverlays = MapHelper.getOfflineLayerList(getApplicationContext()); // Maybe this should only be done once. Have not decided yet.
 		//alertDialog.setItems(list, new  DialogInterface.OnClickListener() {
 		alertDialog.setSingleChoiceItems(OffilineOverlays,selected_layer,new  DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int item) {

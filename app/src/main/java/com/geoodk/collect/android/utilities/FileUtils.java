@@ -430,16 +430,4 @@ public class FileUtils {
             deleteAndReport(tempMediaFolder);
         }
     }
-
-    public static String[] getOfflineLayerList() {
-        File files = new File(Collect.OFFLINE_LAYERS);
-        ArrayList<String> results = new ArrayList<>();
-        results.add("None");
-        for(String folder : files.list()){
-            results.add(folder);
-        }
-        String[] finala = new String[results.size()];
-        finala = results.toArray(finala);
-        return finala;
-    }
 }

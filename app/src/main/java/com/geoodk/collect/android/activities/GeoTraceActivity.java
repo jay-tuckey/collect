@@ -792,7 +792,7 @@ public class GeoTraceActivity extends Activity implements IRegisterReceiver {
 	private void showLayersDialog() {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle("Select Offline Layer");
-		OffilineOverlays = FileUtils.getOfflineLayerList(); // Maybe this should only be done once. Have not decided yet.
+		OffilineOverlays = MapHelper.getOfflineLayerList(getApplicationContext()); // Maybe this should only be done once. Have not decided yet.
 		alertDialog.setSingleChoiceItems(OffilineOverlays, selected_layer, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
 				switch (item) {
