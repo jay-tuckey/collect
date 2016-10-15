@@ -252,33 +252,6 @@ public class GeoODKMainMapActivity extends Activity implements IRegisterReceiver
         geoRender = new GeoRender(this.getApplicationContext(),mapView);
     }
 
-
-    private String getMBTileFromItem(final int item) {
-        final String folderName = OffilineOverlays[item];
-        final File dir = new File(Collect.OFFLINE_LAYERS+File.separator+folderName);
-        if (dir.isFile()) {
-            // we already have a file
-            return dir.getAbsolutePath();
-        }
-
-        // search first mbtiles file in the directory
-        String mbtilePath;
-        final File[] files = dir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(final File dir, final String name) {
-                return name.toLowerCase().endsWith(".mbtiles");
-            }
-        });
-
-        if (files.length == 0) {
-            throw new RuntimeException(Collect.getInstance().getString(R.string.mbtiles_not_found, dir.getAbsolutePath()));
-        }
-        mbtilePath = files[0].getAbsolutePath();
-
-        return mbtilePath;
-    }
-
-
     public void hideInfoWindows(){
         final List<Overlay> overlays = mapView.getOverlays();
         for (final Overlay overlay : overlays) {

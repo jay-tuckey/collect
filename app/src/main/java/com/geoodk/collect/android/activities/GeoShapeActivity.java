@@ -566,7 +566,7 @@ public class GeoShapeActivity extends Activity implements IRegisterReceiver {
 						layerStatus = true;
 						mapView.getOverlays().remove(mbTileOverlay);
 						//String mbTileLocation = getMBTileFromItem(item);
-						String mbFilePath = getMBTileFromItem(item);
+						String mbFilePath = MapHelper.getMBTileFromItem(item, getApplicationContext());
 						//File mbFile = new File(Collect.OFFLINE_LAYERS+"/GlobalLights/control-room.mbtiles");
 						File mbFile = new File(mbFilePath);
 						mbprovider = new MBTileProvider(GeoShapeActivity.this, mbFile);
@@ -629,21 +629,6 @@ public class GeoShapeActivity extends Activity implements IRegisterReceiver {
 		}
 		mapView.invalidate();
 		
-	}
-	
-	private String getMBTileFromItem(int item) {
-		String foldername = OffilineOverlays[item];
-		File dir = new File(Collect.OFFLINE_LAYERS+File.separator+foldername);
-		String mbtilePath;
-		File[] files = dir.listFiles(new FilenameFilter() {
-		    public boolean accept(File dir, String name) {
-		        return name.toLowerCase().endsWith(".mbtiles");
-		    }
-		});
-		mbtilePath =Collect.OFFLINE_LAYERS+File.separator+foldername+File.separator+files[0].getName();
-		//returnFile = new File(Collect.OFFLINE_LAYERS+File.separator+foldername+files[0]);
-		
-		return mbtilePath;
 	}
 
 	    private OnMarkerClickListener nullmarkerlistner= new Marker.OnMarkerClickListener() {

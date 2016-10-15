@@ -789,7 +789,7 @@ public class GeoPointMapNewActivity extends Activity implements IRegisterReceive
 		            default:
                         layerStatus = true;
                         mapView.getOverlays().remove(mbTileOverlay);
-                        String mbFilePath = getMBTileFromItem(item);
+                        String mbFilePath = MapHelper.getMBTileFromItem(item, getApplicationContext());
                         File mbFile = new File(mbFilePath);
                         mbprovider = new MBTileProvider(GeoPointMapNewActivity.this, mbFile);
                         int newMaxZoomLevel = mbprovider.getMaximumZoomLevel();
@@ -848,20 +848,6 @@ public class GeoPointMapNewActivity extends Activity implements IRegisterReceive
 		}
 		mapView.invalidate();
 
-	}
-
-	private String getMBTileFromItem(int item) {
-		String foldername = offilineOverlays[item];
-		File dir = new File(Collect.OFFLINE_LAYERS+File.separator+foldername);
-		String mbtilePath;
-		File[] files = dir.listFiles(new FilenameFilter() {
-		    public boolean accept(File dir, String name) {
-		        return name.toLowerCase().endsWith(".mbtiles");
-		    }
-		});
-		mbtilePath =Collect.OFFLINE_LAYERS+File.separator+foldername+File.separator+files[0].getName();
-
-		return mbtilePath;
 	}
 
     private OnMarkerClickListener nullmarkerlistner= new OnMarkerClickListener() {
