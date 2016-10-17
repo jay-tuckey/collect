@@ -15,6 +15,7 @@
 package com.geoodk.collect.android.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -35,6 +36,7 @@ import com.geoodk.collect.android.external.ExternalDataManager;
 import com.geoodk.collect.android.logic.FormController;
 import com.geoodk.collect.android.logic.PropertyManager;
 import com.geoodk.collect.android.preferences.PreferencesActivity;
+import com.geoodk.collect.android.spatial.MapHelper;
 import com.geoodk.collect.android.utilities.AgingCredentialsProvider;
 
 import java.io.File;
@@ -59,6 +61,7 @@ public class Collect extends Application {
     public static final String LOG_PATH = ODK_ROOT + File.separator + "log";
     public static final String DEFAULT_FONTSIZE = "21";
     public static final String OFFLINE_LAYERS = ODK_ROOT + File.separator + "OfflineLayers";
+    public static final String OFFLINE_LAYERS_DIRECTORY_NAME = File.separator + "OfflineLayers";
 
     // share all session cookies across all sessions...
     private CookieStore cookieStore = new BasicCookieStore();
@@ -123,15 +126,33 @@ public class Collect extends Application {
      *
      * @throws RuntimeException if there is no SDCard or the directory exists as a non directory
      */
-    public static void createODKDirs() throws RuntimeException {
+    public static void createODKDirs(Context context) throws RuntimeException {
         String cardstatus = Environment.getExternalStorageState();
         if (!cardstatus.equals(Environment.MEDIA_MOUNTED)) {
             throw new RuntimeException(Collect.getInstance().getString(R.string.sdcard_unmounted, cardstatus));
         }
 
-        String[] dirs = {
-                ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH,OFFLINE_LAYERS
-        };
+        String[] dirs = null;
+
+        if(context != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            File[] externalDirs = context.getExternalFilesDirs(null);
+
+            String[] originalDirs = {
+                    ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH,OFFLINE_LAYERS
+            };
+
+            dirs = new String[originalDirs.length + (externalDirs.length * 2)];
+
+            for(int i = 0; i < originalDirs.length; i++) {
+                dirs[i] = originalDirs[i];
+            }
+
+            for(int i = 0; i < externalDirs.length; i++) {
+                dirs[(i * 2) + originalDirs.length] = externalDirs[i].getAbsolutePath();
+                dirs[(i * 2) + originalDirs.length + 1] = (externalDirs[i].getAbsolutePath() + OFFLINE_LAYERS_DIRECTORY_NAME);
+            }
+        }
+        else dirs = new String[]{ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH, OFFLINE_LAYERS};
 
         for (String dirName : dirs) {
             File dir = new File(dirName);
@@ -153,6 +174,9 @@ public class Collect extends Application {
                 }
             }
         }
+    }
+    public static void createODKDirs() throws RuntimeException {
+        createODKDirs(null);
     }
 
     /**

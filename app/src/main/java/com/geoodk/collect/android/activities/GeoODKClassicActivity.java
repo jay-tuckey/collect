@@ -58,7 +58,7 @@ public class GeoODKClassicActivity extends Activity {
 
         Log.i(t, "Starting up, creating directories");
 		try {
-			Collect.createODKDirs();
+			Collect.createODKDirs(getApplicationContext());
 		} catch (RuntimeException e) {
 			createErrorDialog(e.getMessage(), EXIT);
 			return;

@@ -226,7 +226,7 @@ public class FormEntryActivity extends Activity implements AnimationListener,
 		// must be at the beginning of any activity that can be called from an
 		// external intent
 		try {
-			Collect.createODKDirs();
+			Collect.createODKDirs(getApplicationContext());
 		} catch (RuntimeException e) {
 			createErrorDialog(e.getMessage(), EXIT);
 			return;

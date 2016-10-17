@@ -143,7 +143,7 @@ public class GeoODKMapThemeActivity extends Activity implements IRegisterReceive
 
         Log.i(t, "Starting up, creating directories");
 		try {
-			Collect.createODKDirs();
+			Collect.createODKDirs(getApplicationContext());
 		} catch (RuntimeException e) {
 			createErrorDialog(e.getMessage(), EXIT);
 			return;

@@ -108,7 +108,7 @@ public class MainMenuActivity extends Activity {
 		// external intent
 		Log.i(t, "Starting up, creating directories");
 		try {
-			Collect.createODKDirs();
+			Collect.createODKDirs(getApplicationContext());
 		} catch (RuntimeException e) {
 			createErrorDialog(e.getMessage(), EXIT);
 			return;
