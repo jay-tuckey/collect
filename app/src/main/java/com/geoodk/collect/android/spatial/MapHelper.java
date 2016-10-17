@@ -101,15 +101,41 @@ public class MapHelper {
         }
         return baseTiles;
 	}
+
     public static String[] getOfflineLayerList(Context context) {
-        // TODO Auto-generated method stub
-        File files = new File(Collect.OFFLINE_LAYERS);
+        File[] files = null;
+
+        // Collect all offline possible offline file dirs if Android version is high enough
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            File[] externalDirs = context.getExternalFilesDirs(null);
+            for(int i = 0; i < externalDirs.length; i++) {
+                externalDirs[i] = new File(externalDirs[i].getAbsolutePath() + Collect.OFFLINE_LAYERS_DIRECTORY_NAME);
+            }
+            files = new File[externalDirs.length + 1];
+            for(int i = 0; i < externalDirs.length; i++) {
+                files[i] = externalDirs [i];
+            }
+            files[externalDirs.length] = new File(Collect.OFFLINE_LAYERS);
+        }
+        // If Android version is before 4.0, just get the old directory path
+        else {
+            files = new File[]{new File(Collect.OFFLINE_LAYERS)};
+        }
+
+        // File files = new File(Collect.OFFLINE_LAYERS);
         ArrayList<String> results = new ArrayList<String>();
         results.add("None");
-        String[] overlay_folders =  files.list();
-        for(int i =0;i<overlay_folders.length;i++){
-            results.add(overlay_folders[i]);
+
+        // Add any MBTiles directories to the list of Offline Layers
+        for(File file : files) {
+            if(file.list().length != 0) {
+                String[] overlay_folders =  file.list();
+                for(int i =0;i<overlay_folders.length;i++){
+                    results.add(overlay_folders[i]);
+                }
+            }
         }
+        
         String[] finala = new String[results.size()];
         finala = results.toArray(finala);
         return finala;

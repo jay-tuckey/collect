@@ -109,7 +109,7 @@ public class InstanceProvider extends ContentProvider {
     private DatabaseHelper getDbHelper() {
         // wrapper to test and reset/set the dbHelper based upon the attachment state of the device.
         try {
-            Collect.createODKDirs();
+            Collect.createODKDirs(getContext());
         } catch (RuntimeException e) {
         	mDbHelper = null;
             return null;
