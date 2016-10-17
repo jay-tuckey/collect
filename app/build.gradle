@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.geoodk.collect.android"
         minSdkVersion 9
-        targetSdkVersion 24
-        versionCode 15
-        versionName "2.0.2"
+        targetSdkVersion 22
+        versionCode 16
+        versionName "2.1.0"
     }
     buildTypes {
         release {
