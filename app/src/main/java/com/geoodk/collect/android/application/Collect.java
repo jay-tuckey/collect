@@ -134,15 +134,17 @@ public class Collect extends Application {
 
         String[] dirs = null;
 
+        // If the Android version is 4.0 or above, find all the directories the app has permissions to
         if(context != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            // Get all data directories
             File[] externalDirs = context.getExternalFilesDirs(null);
 
             String[] originalDirs = {
                     ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH,OFFLINE_LAYERS
             };
 
+            // Add in the extra OfflineFiles directories
             dirs = new String[originalDirs.length + (externalDirs.length * 2)];
-
             for(int i = 0; i < originalDirs.length; i++) {
                 dirs[i] = originalDirs[i];
             }
@@ -152,6 +154,7 @@ public class Collect extends Application {
                 dirs[(i * 2) + originalDirs.length + 1] = (externalDirs[i].getAbsolutePath() + OFFLINE_LAYERS_DIRECTORY_NAME);
             }
         }
+        // If the Android version is not high enough, just use the old directory paths
         else dirs = new String[]{ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH, OFFLINE_LAYERS};
 
         for (String dirName : dirs) {
@@ -174,9 +177,6 @@ public class Collect extends Application {
                 }
             }
         }
-    }
-    public static void createODKDirs() throws RuntimeException {
-        createODKDirs(null);
     }
 
     /**
