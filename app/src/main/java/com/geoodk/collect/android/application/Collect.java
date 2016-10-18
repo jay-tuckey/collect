@@ -40,6 +40,9 @@ import com.geoodk.collect.android.spatial.MapHelper;
 import com.geoodk.collect.android.utilities.AgingCredentialsProvider;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Extends the Application class to implement
@@ -132,30 +135,21 @@ public class Collect extends Application {
             throw new RuntimeException(Collect.getInstance().getString(R.string.sdcard_unmounted, cardstatus));
         }
 
-        String[] dirs = null;
+        ArrayList<String> dirs = new ArrayList<String>();
+
+        String[] originalPaths = {ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH, OFFLINE_LAYERS};
+
+        dirs.addAll(Arrays.asList(originalPaths));
 
         // If the Android version is 4.0 or above, find all the directories the app has permissions to
         if(context != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             // Get all data directories
             File[] externalDirs = context.getExternalFilesDirs(null);
-
-            String[] originalDirs = {
-                    ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH,OFFLINE_LAYERS
-            };
-
-            // Add in the extra OfflineFiles directories
-            dirs = new String[originalDirs.length + (externalDirs.length * 2)];
-            for(int i = 0; i < originalDirs.length; i++) {
-                dirs[i] = originalDirs[i];
-            }
-
-            for(int i = 0; i < externalDirs.length; i++) {
-                dirs[(i * 2) + originalDirs.length] = externalDirs[i].getAbsolutePath();
-                dirs[(i * 2) + originalDirs.length + 1] = (externalDirs[i].getAbsolutePath() + OFFLINE_LAYERS_DIRECTORY_NAME);
+            for(File externalDir : externalDirs) {
+                dirs.add(externalDir.getAbsolutePath());
+                dirs.add(externalDir.getAbsolutePath() + OFFLINE_LAYERS_DIRECTORY_NAME);
             }
         }
-        // If the Android version is not high enough, just use the old directory paths
-        else dirs = new String[]{ODK_ROOT, FORMS_PATH, INSTANCES_PATH, CACHE_PATH, METADATA_PATH, OFFLINE_LAYERS};
 
         for (String dirName : dirs) {
             File dir = new File(dirName);
