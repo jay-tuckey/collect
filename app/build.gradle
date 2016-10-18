@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        offlineLayers {
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
-
     defaultConfig {
         applicationId "com.geoodk.collect.android"
         minSdkVersion 9
@@ -16,8 +19,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+        offlinelayerstest {
+            applicationIdSuffix ".offlinelayers"
+            debuggable true
+            signingConfig signingConfigs.offlineLayers
+        }
     }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -30,7 +40,6 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-
     // TODO Update utilities/WebUtils.java to not use org.apache.http.HttpStatus
     useLibrary 'org.apache.http.legacy'
 }
