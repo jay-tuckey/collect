@@ -103,23 +103,20 @@ public class MapHelper {
 	}
 
     public static String[] getOfflineLayerList(Context context) {
-        File[] files = null;
+        ArrayList<File> files = new ArrayList<File>();
 
         // Collect all offline possible offline file dirs if Android version is high enough
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             File[] externalDirs = context.getExternalFilesDirs(null);
             for(int i = 0; i < externalDirs.length; i++) {
-                externalDirs[i] = new File(externalDirs[i].getAbsolutePath() + Collect.OFFLINE_LAYERS_DIRECTORY_NAME);
+                files.add(new File(externalDirs[i].getAbsolutePath() + Collect.OFFLINE_LAYERS_DIRECTORY_NAME));
             }
-            files = new File[externalDirs.length + 1];
-            for(int i = 0; i < externalDirs.length; i++) {
-                files[i] = externalDirs [i];
-            }
-            files[externalDirs.length] = new File(Collect.OFFLINE_LAYERS);
+
+            files.add(new File(Collect.OFFLINE_LAYERS));
         }
         // If Android version is before 4.0, just get the old directory path
         else {
-            files = new File[]{new File(Collect.OFFLINE_LAYERS)};
+            files.add( new File(Collect.OFFLINE_LAYERS) );
         }
 
         // File files = new File(Collect.OFFLINE_LAYERS);
